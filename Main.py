@@ -1,6 +1,3 @@
-# This comment is to test pushing changes to Github from my dev environment.
-
-
 from Card import *
 from CardSprite import *
 from Deck import *
@@ -14,7 +11,9 @@ from pygame.locals import (
     KEYDOWN as KeyDown,
     K_ESCAPE as kEscape,
     QUIT as Quit,
-    MOUSEBUTTONDOWN as mouseButtonDown
+    MOUSEBUTTONDOWN as mouseButtonDown,
+    K_SPACE as kSpace
+
 )
 
 pygame.init()
@@ -34,6 +33,16 @@ deckSprites = pygame.sprite.Group()
 playerDealerHandSprites = pygame.sprite.Group() #new sprite group for cards dealt to player and dealer
 welcomeSprites = pygame.sprite.Group()
 
+# Create the welcome screen sprite and render it before game starts
+welcomeScreen = WelcomeSprite(screenW, screenH)
+welcomeSprites.add(welcomeScreen)
+screen.blit(welcomeScreen.surf, welcomeScreen.rect)
+
+# Create a table sprite outside the game loop and render it once
+table = createTable(screenW, screenH)
+screen.fill((35, 96, 59)) #23603b
+screen.blit(table.surf, table.rect)
+
 running = True # Variable to keep the game loop going
 
 # Main Game loop Starts Here
@@ -47,17 +56,11 @@ while running:
         elif event.type == Quit:
             running = False
 
-    screen.fill((35, 96, 59)) #23603b
+        if event.type == mouseButtonDown and event.button == 1:
+            if welcomeScreen.rect.collidepoint(event.pos):
+                welcomeScreen.removeSprite()
 
     # pygame.draw.circle(screen, (255, 0, 0), (screenW /2, screenH / 2), 125)
-
-    # Create the welcome screen sprite
-    welcomeScreen = WelcomeSprite(screenW, screenH)
-    welcomeSprites.add(welcomeScreen)
-
-    # Create a Table Sprite
-    allSprites.add(createTable(screenW, screenH))
-
 
     # Create a sprite for the Deck of Cards
     deckSprites.add(createDeck(screenW))
@@ -76,13 +79,6 @@ while running:
     # Render all sprites in the allSprites Group
     for sprite in allSprites:
         screen.blit(sprite.surf, sprite.rect)
-
-    # for sprite in welcomeSprites:
-    #     screen.blit(sprite.surf, sprite.rect)
-
-    # if event.type == mouseButtonDown and event.button == 1:
-    #     if welcomeScreen.rect.collidepoint(event.pos):
-    #         welcomeScreen.removeSprite()
 
     pygame.display.flip()
 
