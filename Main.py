@@ -19,15 +19,11 @@ from pygame.locals import (
 
 pygame.init()
 
-
-
 pygame.quit()
 
-# Defining the screen size for the game window
+# Defining the default screen size for the game window
 screenW = 837 * 1.5
 screenH = 670 * 1.5
-
-
 
 screen = pygame.display.set_mode([screenW, screenH])
 pygame.display.set_caption('Play Blackjack!')
@@ -35,6 +31,7 @@ pygame.display.set_caption('Play Blackjack!')
 # Creating Sprite group for rendering
 allSprites = pygame.sprite.Group()
 deckSprites = pygame.sprite.Group()
+playerDealerHandSprites = pygame.sprite.Group() #new sprite group for cards dealt to player and dealer
 welcomeSprites = pygame.sprite.Group()
 
 running = True # Variable to keep the game loop going
