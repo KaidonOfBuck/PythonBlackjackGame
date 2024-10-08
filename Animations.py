@@ -1,7 +1,10 @@
-# Functions to animate dealing cards and win/lose screens
+# Functions for dealing cards and win/lose screens
 
 from TableSprite import *
 from CardSprite import *
+
+
+#Functions for creating the static assets on screen
 
 def createTable(screenW, screenH):
     table = TableSprite(screenW, screenH)
