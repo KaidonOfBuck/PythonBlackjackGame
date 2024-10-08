@@ -12,6 +12,7 @@ from pygame.locals import (
     K_ESCAPE as kEscape,
     QUIT as Quit,
     MOUSEBUTTONDOWN as mouseButtonDown,
+    MOUSEBUTTONUP as mouseButtonUp,
     K_SPACE as kSpace
 
 )
@@ -33,15 +34,14 @@ deckSprites = pygame.sprite.Group()
 playerDealerHandSprites = pygame.sprite.Group() #new sprite group for cards dealt to player and dealer
 welcomeSprites = pygame.sprite.Group()
 
-# Create the welcome screen sprite and render it before game starts
-welcomeScreen = WelcomeSprite(screenW, screenH)
-welcomeSprites.add(welcomeScreen)
-screen.blit(welcomeScreen.surf, welcomeScreen.rect)
-
 # Create a table sprite outside the game loop and render it once
 table = createTable(screenW, screenH)
 screen.fill((35, 96, 59)) #23603b
 screen.blit(table.surf, table.rect)
+
+# Create the welcome screen sprite and render it before game starts
+# welcomeScreen = WelcomeSprite(screenW, screenH)
+# screen.blit(welcomeScreen.surf, welcomeScreen.rect)
 
 running = True # Variable to keep the game loop going
 
@@ -49,18 +49,14 @@ running = True # Variable to keep the game loop going
 while running:
     for event in pygame.event.get():
 
-        if event.type == KeyDown:
-            if event.key == kEscape:
-                running = False
+        if event.type == KeyDown and event.key == kEscape:
+            running = False
 
         elif event.type == Quit:
             running = False
-
-        if event.type == mouseButtonDown and event.button == 1:
-            if welcomeScreen.rect.collidepoint(event.pos):
-                welcomeScreen.removeSprite()
-
-    # pygame.draw.circle(screen, (255, 0, 0), (screenW /2, screenH / 2), 125)
+        
+        # elif event.type == mouseButtonUp and event.button == 1:
+        #     welcomeScreen.removeSprite()
 
     # Create a sprite for the Deck of Cards
     deckSprites.add(createDeck(screenW))
